@@ -197,27 +197,28 @@ double Inv_jaco(double A, double B, double C, const double *xo, const double *yo
     return det;
 }
 
+
 double Inv_jaco_cube(double A, double B, double C, const double *xo, const double *yo, const double *zo, double *Nx, double *Ny, double *Nz, int *Ele) {
     double jaco11 = 0, jaco12 = 0, jaco13 = 0, jaco21 = 0, jaco22 = 0, jaco23 = 0, jaco31 = 0, jaco32 = 0, jaco33 = 0, det, NA[20] = {
             0}, NB[20] = {0}, NC[20] = {0};
-    int jacoi;
+    int i;
     FNA_cube(A, B, C, NA, Ele);
     FNB_cube(A, B, C, NB, Ele);
     FNC_cube(A, B, C, NC, Ele);
     for (int i = 0; i < 20; i++) {
         Nx[i] = Ny[i] = Nz[i] = 0;
     }
-    for (jacoi = 0; jacoi < 20; jacoi++) {
-        if (!Ele[jacoi])continue;
-        jaco11 += xo[jacoi] * NA[jacoi];
-        jaco12 += yo[jacoi] * NA[jacoi];
-        jaco13 += zo[jacoi] * NA[jacoi];
-        jaco21 += xo[jacoi] * NB[jacoi];
-        jaco22 += yo[jacoi] * NB[jacoi];
-        jaco23 += zo[jacoi] * NB[jacoi];
-        jaco31 += xo[jacoi] * NC[jacoi];
-        jaco32 += yo[jacoi] * NC[jacoi];
-        jaco33 += zo[jacoi] * NC[jacoi];
+    for (i = 0; i < 20; i++) {
+        if (!Ele[i])continue;
+        jaco11 += xo[i] * NA[i];
+        jaco12 += yo[i] * NA[i];
+        jaco13 += zo[i] * NA[i];
+        jaco21 += xo[i] * NB[i];
+        jaco22 += yo[i] * NB[i];
+        jaco23 += zo[i] * NB[i];
+        jaco31 += xo[i] * NC[i];
+        jaco32 += yo[i] * NC[i];
+        jaco33 += zo[i] * NC[i];
     }
     det = jaco11 * jaco22 * jaco33 + jaco12 * jaco23 * jaco31 + jaco13 * jaco21 * jaco32 - jaco13 * jaco22 * jaco31 -
           jaco12 * jaco21 * jaco33 - jaco11 * jaco23 * jaco32;
@@ -225,19 +226,19 @@ double Inv_jaco_cube(double A, double B, double C, const double *xo, const doubl
         cout << "雅各比矩阵为负" << endl;
         exit(0);
     }
-    for (jacoi = 0; jacoi < 20; jacoi++) {
-        if (!Ele[jacoi]) {
-            Nx[jacoi] = 0;
-            Ny[jacoi] = 0;
-            Nz[jacoi] = 0;
+    for (i = 0; i < 20; i++) {
+        if (!Ele[i]) {
+            Nx[i] = 0;
+            Ny[i] = 0;
+            Nz[i] = 0;
             continue;
         }
-        Nx[jacoi] = ((jaco22 * jaco33 - jaco23 * jaco32) * NA[jacoi] - (jaco12 * jaco33 - jaco13 * jaco32) * NB[jacoi] +
-                    (jaco12 * jaco23 - jaco13 * jaco22) * NC[jacoi]) / det;
-        Ny[jacoi] = (-(jaco12 * jaco33 - jaco13 * jaco31) * NA[jacoi] + (jaco11 * jaco33 - jaco13 * jaco31) * NB[jacoi] -
-                    (jaco11 * jaco23 - jaco13 * jaco21) * NC[jacoi]) / det;
-        Nz[jacoi] = ((jaco21 * jaco32 - jaco22 * jaco31) * NA[jacoi] - (jaco11 * jaco32 - jaco12 * jaco31) * NB[jacoi] +
-                    (jaco11 * jaco22 - jaco12 * jaco21) * NC[jacoi]) / det;
+        Nx[i] = ((jaco22 * jaco33 - jaco23 * jaco32) * NA[i] - (jaco12 * jaco33 - jaco13 * jaco32) * NB[i] +
+                    (jaco12 * jaco23 - jaco13 * jaco22) * NC[i]) / det;
+        Ny[i] = (-(jaco12 * jaco33 - jaco13 * jaco31) * NA[i] + (jaco11 * jaco33 - jaco13 * jaco31) * NB[i] -
+                    (jaco11 * jaco23 - jaco13 * jaco21) * NC[i]) / det;
+        Nz[i] = ((jaco21 * jaco32 - jaco22 * jaco31) * NA[i] - (jaco11 * jaco32 - jaco12 * jaco31) * NB[i] +
+                    (jaco11 * jaco22 - jaco12 * jaco21) * NC[i]) / det;
     }
     return det;
 }
