@@ -1,5 +1,5 @@
 /*
-* @Description: 
+* @Description: 计算力学(六)坐标变换和高斯积分中代码
 * @Author: FangHongjianTX
 * @Date: 2024-04-30
 * @Email: shijunc@foxmail.com
