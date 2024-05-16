@@ -33,7 +33,7 @@ void FNB(double A, double B, double *N, const int *Ele) {
 }
 
 
-/// 二维三角单元的偏导数
+/// 二维单元的偏导数
 void FNA(double A, double B, double C, double *N, const int *Ele) {
     if (Ele[3] > 0) N[3] = 4 * B; else N[3] = 0;
     N[4] = 0;
@@ -62,7 +62,7 @@ void FNC(double A, double B, double C, double *N, const int *Ele) {
 }
 
 
-/// 三维插值基函数的偏导数
+/// 三维基函数的偏导数
 void FNA_cube(double A, double B, double C, double *N, const int *Ele) {
     if (Ele[8]) N[8] = +(1 - B * B) * (1 - C) / 4; else N[8] = 0;
     if (Ele[9]) N[9] = -A * (1 + B) * (1 - C) / 2; else N[9] = 0;
@@ -135,11 +135,11 @@ void FNC_cube(double A, double B, double C, double *N, const int *Ele) {
 /// 雅各比矩阵的行列式
 /// \param A 局部坐标
 /// \param B 局部坐标
-/// \param xo 插值节点总体x坐标，长度为8的数组指针，下同
-/// \param yo 插值节点总体y坐标
-/// \param Nx 插值基函数对x偏导数
-/// \param Ny 插值基函数对y偏导数
-/// \param Ele 存放插值区域的节点构成，某元素为0，则意味该节点不存在
+/// \param xo 插值点总体x，长度为8的数组指针，下同
+/// \param yo 插值点总体y
+/// \param Nx 基函数对x偏导数
+/// \param Ny 基函数对y偏导数
+/// \param Ele 存放插值区域的节点构成，某元素0，意味该节点不存在
 /// \return 雅各比矩阵行列式的值
 double Inv_jaco(double A, double B, const double *xo, const double *yo, double *Nx, double *Ny, const int *Ele) {
     double jaco11 = 0, jaco12 = 0, jaco21 = 0, jaco22 = 0, det, NA[8] = {0}, NB[8] = {0};

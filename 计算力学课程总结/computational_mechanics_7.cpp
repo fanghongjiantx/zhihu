@@ -10,7 +10,7 @@
 #include <iostream>
 using namespace std;
 
-/// 二维应力应变关系矩阵D
+/// 二维应力应变矩阵D
 /// \param Iopt =0为平面应力情况，=1为平面应变情况，=2为轴对称情况
 void eld(double E, double u, double(*D)[4], int Iopt) {
     switch (Iopt) {
@@ -43,7 +43,7 @@ void eld_cube(double E, double u, double(*D)[6]) {
     D[3][3] = D[4][4] = D[5][5] = (1 - 2 * u) * coff / 2;
 }
 
-/// 二维单元刚度矩阵
+/// 二维刚度矩阵
 /// \param Thick 单元厚度，仅用于平面应力情况
 /// \param xo 插值节点总体x坐标，长度为8的数组指针
 /// \param yo 插值节点总体y坐标，长度为8的数组指针
@@ -114,7 +114,7 @@ void CacuEk(double E, double u, double Thick, double *xo, double *yo, double *ek
     }
 }
 
-/// 二维三角单元刚度矩阵
+/// 三角单元刚度矩阵
 void CacuEk(double E, double u, double Thick, double *xo, double *yo, double *ek, int *Ele, int Iopt) {
     double(*D)[4] = new double[4][4];
     int i, j, k, l, m, n;
